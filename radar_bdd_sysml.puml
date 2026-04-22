@@ -1,0 +1,281 @@
+@startuml Radar_BDD_SysML
+' ============================================================
+' SysML Block Definition Diagram (BDD) – Marine Radar System
+' Source: merchantnavydecoded.com – Marine Radar Complete Guide
+' ============================================================
+
+skinparam backgroundColor #FAFAFA
+skinparam classBorderColor #2E86AB
+skinparam classBorderThickness 1.5
+skinparam classBackgroundColor #E8F4FD
+skinparam classFontColor #1A1A2E
+skinparam classFontSize 12
+skinparam classHeaderBackgroundColor #2E86AB
+skinparam classHeaderFontColor #FFFFFF
+skinparam classHeaderFontSize 13
+skinparam arrowColor #2E86AB
+skinparam arrowThickness 1.5
+skinparam noteBackgroundColor #FFFDE7
+skinparam noteBorderColor #F0A500
+
+title <b>SysML BDD – Marine Radar System Blocks</b>\n<i>Source: Merchant Navy Decoded – The Complete Guide About Marine Radar</i>
+
+' ── TOP-LEVEL SYSTEM ───────────────────────────────────────
+class "<<block>>\nMarineRadarSystem" as MRS #2E86AB {
+  Values
+  --
+  + operatingFrequency : GHz
+  + wavelength : cm
+  + radarType : {X-Band, S-Band}
+  + PRF : 500..4000 pps
+  + scannerRPM : 12..30 RPM
+  + rangeScales : {0.25, 0.5, 0.75, 1.5, 3, 6, 12, 24} NM
+  --
+  Operations
+  --
+  + initialize() : void
+  + transmit() : RFPulse
+  + receive() : Echo
+  + display() : PPIFrame
+  + checkSOLAS() : ComplianceStatus
+}
+
+' ── TRANSMITTER ────────────────────────────────────────────
+class "<<block>>\nTransmitter" as TX #3A7CA5 {
+  Values
+  --
+  + powerSupply : DC Regulated
+  + pulseWidth : µs
+  + peakPower : kW
+  --
+  Parts
+  --
+  + delayLine : DelayLine
+  + trigger : TriggerUnit
+  + modulator : Modulator
+  + magnetron : Magnetron
+  --
+  Operations
+  --
+  + generatePulse() : RFPulse
+  + routeToTRSwitch() : void
+}
+
+class "<<block>>\nMagnetron" as MAG #5BA4CF {
+  Values
+  --
+  + outputFrequency : GHz
+  + wavelength : cm
+  --
+  Operations
+  --
+  + oscillate() : HighFreqRF
+}
+
+' ── SCANNER ────────────────────────────────────────────────
+class "<<block>>\nScanner" as SCN #27AE60 {
+  Values
+  --
+  + rotationSpeed : 12..30 RPM
+  + beamWidth : degrees
+  + location : MonkeyIsland
+  + PRF : 500..4000 pps
+  --
+  Operations
+  --
+  + rotateScan() : void
+  + transmitPulse() : void
+  + receiveEcho() : Echo
+}
+
+' ── RECEIVER ───────────────────────────────────────────────
+class "<<block>>\nReceiver" as RX #C0392B {
+  Parts
+  --
+  + trCell : TRCell
+  + localOscillator : LocalOscillator
+  + mixer : Mixer
+  + ifAmplifier : IFAmplifier
+  + videoAmplifier : VideoAmplifier
+  + demodulator : Demodulator
+  --
+  Operations
+  --
+  + amplifyEcho() : ProcessedSignal
+  + smoothSignal() : VideoSignal
+}
+
+' ── DISPLAY ────────────────────────────────────────────────
+class "<<block>>\nDisplay" as DSP #8E44AD {
+  Values
+  --
+  + displayType : CRT / RASTER
+  + VRMcount : ≥2
+  + parallelIndexLines : ≥4
+  + bearingScaleDivision : 30°
+  + bearingMarkDivision : 5°
+  --
+  Operations
+  --
+  + renderPPI() : PPIFrame
+  + paintTarget() : TargetBlip
+  + determineBearing() : degrees
+  + determineRange() : NM
+}
+
+' ── ARPA ───────────────────────────────────────────────────
+class "<<block>>\nARPA" as ARPA #E67E22 {
+  Constraints
+  --
+  [Ships > 3000 GT – SOLAS Mandatory]
+  --
+  Operations
+  --
+  + acquireTarget() : Track
+  + calculateCPA() : NM
+  + calculateTCPA() : minutes
+  + generateAlert() : Alarm
+}
+
+' ── EPA ────────────────────────────────────────────────────
+class "<<block>>\nElectronicPlottingAid" as EPA #F39C12 {
+  Constraints
+  --
+  [Ships 300–3000 GT – SOLAS Mandatory]
+  --
+  Operations
+  --
+  + plotTarget() : ManualTrack
+  + displayVector() : void
+}
+
+' ── HYBRID NAVY SYSTEM ─────────────────────────────────────
+class "<<block>>\nHybridNavySystem" as HNS #1ABC9C {
+  Values
+  --
+  + integrationMode : SensorFusion
+  + aiEnabled : boolean
+  + autonomyLevel : 0..5
+  --
+  Parts
+  --
+  + aisReceiver : AISReceiver
+  + satelliteFeed : SatelliteDataFeed
+  + ecdis : ECDIS
+  + uavSensor : UAVSensorFeed
+  + fusionEngine : SensorFusionEngine
+  + aiClassifier : AITargetClassifier
+  + ibs : IntegratedBridgeSystem
+}
+
+class "<<block>>\nAISReceiver" as AIS #16A085 {
+  Values
+  --
+  + dataFields : {MMSI, Name, Position, COG, SOG, Heading}
+  --
+  Operations
+  --
+  + ingestAIS() : VesselTrack
+}
+
+class "<<block>>\nSensorFusionEngine" as SFE #117A65 {
+  Operations
+  --
+  + fuseRadarAIS() : FusedTrack
+  + fuseWithSatellite() : EnhancedTrack
+  + fuseWithUAV() : SituationalPicture
+}
+
+class "<<block>>\nAITargetClassifier" as AIC #0E6655 {
+  Operations
+  --
+  + classifyVesselType() : VesselClass
+  + detectAnomalousMovement() : Anomaly
+  + assessThreatLevel() : ThreatScore
+}
+
+class "<<block>>\nIntegratedBridgeSystem" as IBS #0A4F42 {
+  Operations
+  --
+  + renderUnifiedPicture() : OperationalDisplay
+  + recommendCourseChange() : COLREGSAdvice
+  + logIncident() : EventLog
+}
+
+' ── RADAR BANDS ────────────────────────────────────────────
+class "<<block>>\nXBandRadar" as XBR #E74C3C {
+  Values
+  --
+  + frequency : 9 GHz
+  + wavelength : 3 cm
+  + range : Short (high resolution)
+  + antennaSize : Small
+  --
+  Constraints
+  --
+  [Susceptible to rain attenuation]
+  [Required: all ships >300 GT]
+}
+
+class "<<block>>\nSBandRadar" as SBR #C0392B {
+  Values
+  --
+  + frequency : 3 GHz
+  + wavelength : 10 cm
+  + range : Long
+  + weatherResistance : High
+  --
+  Constraints
+  --
+  [Lower resolution than X-Band]
+  [Required: ships >3000 GT – SOLAS]
+}
+
+' ── RELATIONSHIPS ──────────────────────────────────────────
+MRS *-- TX       : <<part>>\n1 transmitter
+MRS *-- SCN      : <<part>>\n1 scanner
+MRS *-- RX       : <<part>>\n1 receiver
+MRS *-- DSP      : <<part>>\n1 display
+MRS o-- ARPA     : <<usage>>\n[>3000 GT]
+MRS o-- EPA      : <<usage>>\n[300-3000 GT]
+MRS <|-- XBR     : <<specialize>>\nX-Band
+MRS <|-- SBR     : <<specialize>>\nS-Band
+
+TX *-- MAG       : <<part>>\nmagnetron
+TX --> SCN       : transmits via\nwaveguide/coax
+SCN --> RX       : echo received\nvia TR Switch
+RX --> DSP       : video signal
+DSP --> ARPA     : tracked targets
+DSP --> EPA      : plotted targets
+
+MRS ..> HNS      : <<parallel flow>>\nHybrid Navy Integration
+
+HNS *-- AIS      : <<part>>
+HNS *-- SFE      : <<part>>
+HNS *-- AIC      : <<part>>
+HNS *-- IBS      : <<part>>
+
+AIS --> SFE      : vessel tracks
+MRS --> SFE      : radar tracks
+SFE --> AIC      : fused track
+AIC --> IBS      : classified targets
+SFE --> IBS      : situational picture
+
+note top of HNS
+  Hybrid Navy System runs in
+  parallel with standard radar.
+  Adds: AIS, Satellite, ECDIS,
+  UAV feeds, AI classification,
+  and sensor fusion.
+end note
+
+note bottom of MRS
+  IMO Performance Standard:
+  MSC.192(79) – Dec 2004
+  SOLAS Chapter V – Carriage Requirements
+  Range accuracy: ±30m or 1%
+  Bearing accuracy: ±1°
+  Cold start: ≤4 min | Standby: ≤5 sec
+end note
+
+@enduml

@@ -1,0 +1,201 @@
+@startuml Radar_Ingestion_SysML
+' ============================================================
+' SysML Activity Diagram: Marine Radar Ingestion + Hybrid Navy
+' Source: merchantnavydecoded.com – Marine Radar Complete Guide
+' ============================================================
+
+skinparam backgroundColor #FAFAFA
+skinparam activityBackgroundColor #E8F4FD
+skinparam activityBorderColor #2E86AB
+skinparam activityBorderThickness 1.5
+skinparam activityFontColor #1A1A2E
+skinparam activityFontSize 12
+skinparam activityDiamondBackgroundColor #FFF3CD
+skinparam activityDiamondBorderColor #E6A817
+skinparam activityDiamondFontColor #1A1A2E
+skinparam arrowColor #2E86AB
+skinparam arrowThickness 1.5
+skinparam swimlaneBorderColor #6C757D
+skinparam swimlaneBorderThickness 2
+skinparam swimlaneBackgroundColor #F8F9FA
+skinparam swimlaneFontSize 13
+skinparam swimlaneFontStyle bold
+skinparam noteBackgroundColor #FFFDE7
+skinparam noteBorderColor #F0A500
+
+title <b>SysML Activity Diagram – Marine Radar Ingestion & Hybrid Navy Parallel Flow</b>\n<i>Source: Merchant Navy Decoded – The Complete Guide About Marine Radar</i>
+
+' ── SWIM LANES ─────────────────────────────────────────────
+|#DCEEFB|Transmitter Layer|
+|#E8F5E9|Scanner / Aerial Layer|
+|#FBE9E7|Receiver / Signal Processing Layer|
+|#EDE7F6|Display & Plotting Layer|
+|#E0F7FA|Hybrid Navy Integration Layer|
+
+' ============================================================
+' SECTION 1 – TRANSMITTER
+' ============================================================
+|Transmitter Layer|
+
+start
+
+:Power Supply Initialization;
+
+note right
+  Provides regulated DC power
+  to all transmitter sub-units
+end note
+
+:Delay Line & Trigger Generation;
+:Modulator Activation;
+
+note right
+  Modulator shapes the pulse
+  width and timing envelope
+end note
+
+:Magnetron → High-Frequency RF Oscillation;
+
+' ── X-Band vs S-Band Fork ──────────────────────────────────
+fork
+  :<<X-Band>>\n9 GHz / 3 cm wavelength\nHigh resolution, short range\nBetter target discrimination\nSmaller antenna – suits small vessels;
+fork again
+  :<<S-Band>>\n3 GHz / 10 cm wavelength\nLong range detection\nWeather-resistant (rain/fog)\nRequired for ships >3000 GT (SOLAS);
+end fork
+
+:TR Switch → Transmit Mode\n(Waveguide / Coaxial Cable Routing);
+
+' ============================================================
+' SECTION 2 – SCANNER / AERIAL
+' ============================================================
+|Scanner / Aerial Layer|
+
+:Scanner Located on Monkey Island\n(Clear of all obstructions);
+:Unidirectional Beam Emission\n@ Pulse Repetition Frequency (PRF): 500–4000 pps;
+
+note right
+  Scanner rotates 12–30 RPM
+  clockwise when viewed from above.
+  One trace per pulse transmitted.
+end note
+
+:Rotational Scan – 360° Coverage;
+:Echo Reception from Targets;
+:TR Switch → Receive Mode;
+
+' ============================================================
+' SECTION 3 – RECEIVER / SIGNAL PROCESSING
+' ============================================================
+|Receiver / Signal Processing Layer|
+
+:TR Cell (Transmitter-Receiver Switch)\nProtects receiver during transmission;
+:Local Oscillator + Mixer\n(Downconvert to Intermediate Frequency);
+:IF Amplifier\n(Amplify weak echo signals);
+:Video Amplifier;
+:Demodulator\n(Smooth & condition the signal);
+
+' ── Range & Bearing Fork ───────────────────────────────────
+fork
+  :Range Determination\nRange Rings & Variable Range Markers (VRM)\nAccuracy: ±30 m or 1% of range scale;
+  note right
+    Tracing spot speed = ½ speed of radio waves.
+    Echo returns to same spot as the trace,
+    brightening it to indicate target range.
+  end note
+fork again
+  :Bearing Determination\nHeading Marker + Bearing Scale\nAccuracy: ±1°;
+  note right
+    PRF (500–4000) >> RPM (12–30) so
+    angle rotated between TX & RX echo
+    is negligible – bearing is accurate.
+  end note
+end fork
+
+' ============================================================
+' SECTION 4 – DISPLAY & PLOTTING
+' ============================================================
+|Display & Plotting Layer|
+
+:PPI Display (CRT – Cathode Ray Tube)\nPlan Position Indicator – Bird's Eye View;
+
+note right
+  Electron beam sweeps radially
+  from center to edge, synchronized
+  with scanner rotation.
+end note
+
+:Target Paint – Bright Spot on Screen;
+:Bearing Scale (numbered every 30°, marked every 5°)\nMinimum 4 Parallel Index Lines;
+
+' ── SOLAS ARPA Decision ────────────────────────────────────
+if (Ship Tonnage?) then (> 3000 GT)
+  :ARPA – Automatic Radar Plotting Aid\n(Mandatory – SOLAS Chapter V);
+  :CPA / TCPA Calculation\n(Closest Point of Approach / Time to CPA);
+  :Automatic Target Acquisition & Tracking;
+else (300–3000 GT)
+  :Electronic Plotting Aid (EPA)\n(Mandatory – SOLAS Chapter V);
+  :Semi-Automated Target Tracking;
+endif
+
+' ── Sensor Failure Alarm ───────────────────────────────────
+if (Signal / Sensor Failure?) then (Yes – Gyro / Log / Video / Sync / Heading)
+  :ALARM – Failure Indication Triggered\n(IMO Resolution MSC.192(79));
+  :Standby Mode\n(Radar resumes within 5 sec from Standby\nor within 4 min from Cold Start);
+else (No)
+  :System Operating at Optimum Performance\n(Absence-of-Target Indication Active);
+endif
+
+' ============================================================
+' SECTION 5 – PARALLEL FORK: STANDARD vs HYBRID NAVY
+' ============================================================
+
+fork
+  ' ── Standard Radar Output ──────────────────────────────
+  |Display & Plotting Layer|
+  :Standard Radar Collision Avoidance Output\n(Officer of the Watch Assessment);
+  :Navigation Decision & Course Adjustment;
+
+fork again
+  ' ── Hybrid Navy Parallel Flow ──────────────────────────
+  |Hybrid Navy Integration Layer|
+
+  :AIS Data Ingestion\n(Vessel ID, MMSI, Position, COG, SOG, Heading);
+
+  note right
+    AIS = Automatic Identification System.
+    Complements radar with vessel identity
+    not available from echo alone.
+  end note
+
+  fork
+    :Satellite Data Feed\n(VDES / GNSS Augmentation\nPosition Accuracy Enhancement);
+  fork again
+    :ECDIS Chart Overlay\n(Electronic Navigational Chart – ENC\nReal-time chart integration);
+  fork again
+    :Drone / UAV Sensor Feed\n(Extended Beyond-Horizon\nSituational Awareness);
+  end fork
+
+  :AI / ML Target Classification Engine\n(Vessel Type · Threat Level · Behaviour Anomaly);
+
+  note right
+    Fuses radar echo geometry with
+    AIS metadata, AIS gap detection,
+    and historical movement patterns.
+  end note
+
+  :Sensor Fusion Engine\n(Radar + AIS + Satellite + ECDIS + UAV → Unified Track);
+  :Integrated Bridge System (IBS)\n(Unified Operational Picture for OOW);
+  :Hybrid Collision Avoidance Decision Support\n(COLREGS-aware Recommendation Engine);
+
+end fork
+
+' ============================================================
+' FINAL OUTPUT
+' ============================================================
+|Display & Plotting Layer|
+
+:Navigation & Safety Output\n(Course Recommendation · Alert · Logging);
+
+stop
+
+@enduml
