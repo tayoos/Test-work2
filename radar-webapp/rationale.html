@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Decisions &amp; Rationale – FADS Radar SysML</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header>
+  <div class="logo">FADS <span>/ Radar Ingestion SysML</span></div>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="activity.html">Activity Diagram</a>
+    <a href="bdd.html">Block Diagram</a>
+    <a href="rationale.html" class="active">Decisions &amp; Rationale</a>
+  </nav>
+</header>
+
+<div class="page-content">
+  <div class="rationale-body">
+
+    <h1 class="page-title">Decisions &amp; Rationale</h1>
+    <p class="page-subtitle">
+      Full documentation of modelling decisions, format choices, source traceability, and design rationale
+    </p>
+
+    <!-- ── SECTION 1: SOURCE ─────────────────────────────────── -->
+    <h2>1. Source Material &amp; Traceability</h2>
+    <p>
+      All radar ingestion content is derived directly from
+      <em>Merchant Navy Decoded – Marine Radar: The Complete Guide About Marine Radar</em>.
+      The article is structured in numbered sections; each diagram element is traceable to a specific section.
+    </p>
+
+    <table class="decision-table">
+      <thead>
+        <tr>
+          <th>Diagram Element</th>
+          <th>Source Section</th>
+          <th>Extracted Detail</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Power Supply → Trigger → Modulator → Magnetron</td>
+          <td>§4.1 The Transmitter</td>
+          <td>Delay line, modulator, trigger, magnetron described as transmitter sub-units</td>
+        </tr>
+        <tr>
+          <td>TR Switch (Transmit Mode) → waveguide / coaxial</td>
+          <td>§4.1</td>
+          <td>"High-frequency oscillations are fed by a waveguide or coaxial cable into the transmitter-receiver switch"</td>
+        </tr>
+        <tr>
+          <td>Scanner · PRF 500–4000 pps · 12–30 RPM · Monkey Island</td>
+          <td>§4.2 The Scanner</td>
+          <td>"Pulses are sent out at a pre-determined rate called the Pulse Repetition Frequency… constant speed of rotation… located on Monkey Island"</td>
+        </tr>
+        <tr>
+          <td>TR Cell → Local Oscillator → Mixer → IF Amp → Video Amp → Demodulator</td>
+          <td>§4.3 The Receiver</td>
+          <td>Full receiver chain listed verbatim; "amplify the incoming weak echoes… demodulator which smoothens out the signal"</td>
+        </tr>
+        <tr>
+          <td>PPI / CRT Display · Bird's Eye View · Trace = one pulse</td>
+          <td>§4.4 The Display</td>
+          <td>"Cathode Ray Tube (CRT) which provides a Bird's Eye View… one radial line (called the trace) is created for every pulse transmitted"</td>
+        </tr>
+        <tr>
+          <td>Range determination: ±30 m or 1% of range scale</td>
+          <td>§5.1, §8 IMO Performance</td>
+          <td>"Tracing spot speed = ½ speed of radio waves"; IMO: "within 30 m or 1% of the range scale in use"</td>
+        </tr>
+        <tr>
+          <td>Bearing determination: ±1°</td>
+          <td>§5.2, §8</td>
+          <td>"PRF so high (500–4000) compared to RPM (12–30) that the angle rotated… is negligible"; IMO: "within 1°"</td>
+        </tr>
+        <tr>
+          <td>X-Band: 9 GHz / 3 cm · short range · high resolution</td>
+          <td>§6.1 X-Band Radar</td>
+          <td>"Higher frequency range 8–12 GHz… shorter wavelength 2.5–3.75 cm… higher resolution picture in shorter range"</td>
+        </tr>
+        <tr>
+          <td>S-Band: 3 GHz / 10 cm · long range · weather resistant</td>
+          <td>§6.2 S-Band Radar</td>
+          <td>"2–4 GHz… wavelength 7.5–15 cm… longer range… less affected [by weather]"</td>
+        </tr>
+        <tr>
+          <td>EPA required: ships &gt;300 GT. ARPA required: ships &gt;3000 GT</td>
+          <td>§7 SOLAS Requirements</td>
+          <td>"All ships over 300 GT: 9 GHz Radar + Electronic Plotting Aid. Ships over 3000 GT: additional 3 GHz + ARPA"</td>
+        </tr>
+        <tr>
+          <td>Cold start ≤4 min · Standby resume ≤5 sec · ≥4 parallel index lines · ≥2 VRMs</td>
+          <td>§8 IMO Performance Standards (MSC.192(79))</td>
+          <td>Verbatim IMO performance requirements listed in source article</td>
+        </tr>
+        <tr>
+          <td>Sensor failure alarm (gyro, log, video, sync, heading)</td>
+          <td>§8 IMO Performance Standards</td>
+          <td>"Failure of any signal or sensor in use… should be alarmed"</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- ── SECTION 2: DIAGRAM TYPE DECISIONS ─────────────────── -->
+    <h2>2. Diagram Type Decisions</h2>
+
+    <h3>2.1 Why SysML (not UML or BPMN)?</h3>
+    <p>
+      SysML (Systems Modelling Language) was selected over UML and BPMN for the following reasons:
+    </p>
+    <ul>
+      <li><strong>Defence context:</strong> SysML is the standard modelling language for defence systems engineering (used in MBSE, DODAF, NAF frameworks). It is the natural choice for a defence-facing radar systems document.</li>
+      <li><strong>Physical systems:</strong> SysML is designed for physical and cyber-physical systems (hardware + software + signal flow), not just software. Marine radar is precisely this kind of system.</li>
+      <li><strong>Two diagram types used:</strong> Activity Diagram (behaviour / signal flow) and Block Definition Diagram (structure / components) together provide a complete MBSE view.</li>
+      <li><strong>BPMN rejected:</strong> BPMN is optimised for business process flow; it has no concept of signal values, measurement accuracy, physical components, or system blocks.</li>
+    </ul>
+
+    <h3>2.2 Why an Activity Diagram + BDD (not just one diagram)?</h3>
+    <table class="decision-table">
+      <thead>
+        <tr><th>Diagram</th><th>What it shows</th><th>Why needed</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Activity Diagram</td>
+          <td>Temporal signal flow: what happens, in what order, with what decisions</td>
+          <td>Captures the radar ingestion pipeline as a process — the "how it works over time" view</td>
+        </tr>
+        <tr>
+          <td>Block Definition Diagram</td>
+          <td>System structure: what blocks exist, their properties, and how they relate</td>
+          <td>Captures the system composition — the "what it is made of" view. Required for any MBSE-compliant model.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- ── SECTION 3: FORMAT DECISIONS ───────────────────────── -->
+    <h2>3. Format &amp; Tooling Decisions</h2>
+
+    <h3>3.1 Format evaluation</h3>
+    <table class="decision-table">
+      <thead>
+        <tr>
+          <th>Format</th>
+          <th>Offline?</th>
+          <th>Editable?</th>
+          <th>No install?</th>
+          <th>Decision</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>PlantUML (.puml)</td>
+          <td>Partial — needs local JAR or web server</td>
+          <td>Yes (text)</td>
+          <td>No (Java + JAR)</td>
+          <td><span class="tag tag-decision">Rejected</span> — web dependency for rendering; user explicitly excluded</td>
+        </tr>
+        <tr>
+          <td>Mermaid</td>
+          <td>Partial — CDN or local bundle</td>
+          <td>Yes (text)</td>
+          <td>No</td>
+          <td><span class="tag tag-decision">Rejected</span> — user explicitly excluded</td>
+        </tr>
+        <tr>
+          <td>Draw.io XML (.drawio)</td>
+          <td>Yes (desktop app)</td>
+          <td>Yes</td>
+          <td>No (needs draw.io app)</td>
+          <td><span class="tag tag-decision">Not selected</span> — requires installing draw.io Desktop</td>
+        </tr>
+        <tr>
+          <td>SVG (static hand-written)</td>
+          <td>Yes (any browser)</td>
+          <td>Hard — raw XML</td>
+          <td>Yes</td>
+          <td><span class="tag tag-decision">Not selected</span> — poor modifiability for non-developers</td>
+        </tr>
+        <tr>
+          <td>Local Web App (HTML/CSS/JS)</td>
+          <td>Yes — Python http.server</td>
+          <td>Yes — edit JS data objects</td>
+          <td>Yes (Python built-in)</td>
+          <td><span class="tag tag-rationale">Selected</span> — fully offline, easily modified, no installs beyond Python</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>3.2 Why a local web app over a single HTML file?</h3>
+    <ul>
+      <li><strong>Separation of concerns:</strong> Diagram data (the content) lives in <code>js/activity.js</code> and <code>js/bdd.js</code> as plain JavaScript objects at the top of each file. Non-developers can modify labels, add steps, and change lane names without touching rendering code.</li>
+      <li><strong>Maintainability:</strong> Separate CSS, JS, and HTML files are easier to version-control and diff than a monolithic single HTML file.</li>
+      <li><strong>No CDN calls:</strong> All assets are local. Zero network requests. Safe for air-gapped environments.</li>
+      <li><strong>Python http.server:</strong> Python 3 is pre-installed on the machine. <code>python3 -m http.server 8080</code> requires no additional installation and is a single command.</li>
+    </ul>
+
+    <h3>3.3 How to modify the diagrams</h3>
+    <p>Open <code>js/activity.js</code> and edit the <code>ROWS</code> array at the top:</p>
+    <ul>
+      <li>To <strong>add a step</strong>: add a new object to <code>ROWS</code> with <code>type: 'process'</code></li>
+      <li>To <strong>rename a step</strong>: change the <code>label</code> field (use <code>\n</code> for line breaks)</li>
+      <li>To <strong>add a parallel branch</strong>: add multiple nodes in one row's <code>items[]</code></li>
+      <li>To <strong>add a decision</strong>: use <code>type: 'decision'</code></li>
+      <li>To <strong>change lane colours</strong>: edit the <code>LANES</code> array at the top</li>
+    </ul>
+    <p>For the BDD, open <code>js/bdd.js</code> and edit <code>BLOCKS</code> and <code>CONNECTIONS</code>.</p>
+
+    <!-- ── SECTION 4: HYBRID NAVY DESIGN ─────────────────────── -->
+    <h2>4. Hybrid Navy Flow — Design Decisions</h2>
+
+    <h3>4.1 What is the Hybrid Navy flow?</h3>
+    <p>
+      The Hybrid Navy flow represents a modern naval integration layer that runs in <strong>parallel</strong>
+      with the standard radar pipeline. It does not replace radar — it augments it by fusing multiple sensor
+      streams into a unified operational picture. This reflects current and near-future maritime defence
+      architecture where standalone radar is insufficient for modern threat environments.
+    </p>
+
+    <h3>4.2 Why parallel (not sequential)?</h3>
+    <p>
+      The Hybrid Navy layer is modelled as a <strong>parallel fork</strong> from the Display &amp; Plotting lane,
+      not as a downstream sequential stage. Rationale:
+    </p>
+    <ul>
+      <li>AIS, satellite, and ECDIS feeds ingest continuously and independently of radar scan cycles</li>
+      <li>Sensor fusion must correlate tracks in real time — it cannot wait for the radar pipeline to complete</li>
+      <li>In SysML, concurrent activities that share a common trigger are correctly represented as fork/join pairs</li>
+      <li>The parallel model also correctly represents the degraded-mode scenario: if radar fails, the Hybrid Navy layer continues to operate from AIS and satellite feeds</li>
+    </ul>
+
+    <h3>4.3 Component selection rationale</h3>
+    <table class="decision-table">
+      <thead>
+        <tr><th>Component</th><th>Rationale for inclusion</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>AIS Receiver</td>
+          <td>AIS provides vessel identity (MMSI, name, flag) that radar echo cannot. Combined radar+AIS track is the foundation of modern ARPA. Gap detection (vessel with AIS off) is a key threat indicator.</td>
+        </tr>
+        <tr>
+          <td>Satellite Data Feed (VDES/GNSS)</td>
+          <td>VDES (VHF Data Exchange System — IMO successor to AIS) provides beyond-horizon vessel data. GNSS augmentation improves own-ship position accuracy which directly improves relative target position.</td>
+        </tr>
+        <tr>
+          <td>ECDIS Overlay</td>
+          <td>Electronic Navigational Chart integration allows fused tracks to be displayed in chart context — essential for navigational decision-making and COLREGS compliance assessment.</td>
+        </tr>
+        <tr>
+          <td>Drone / UAV Sensor Feed</td>
+          <td>UAVs extend the sensor horizon beyond radar range, particularly relevant for littoral operations. Unmanned surface/air vehicles are now standard in hybrid naval doctrine.</td>
+        </tr>
+        <tr>
+          <td>AI / ML Target Classifier</td>
+          <td>Classifies targets by vessel type, detects anomalous movement patterns (loitering, AIS spoofing), and assigns threat scores — capabilities beyond traditional ARPA.</td>
+        </tr>
+        <tr>
+          <td>Sensor Fusion Engine</td>
+          <td>The core integration component. Correlates radar tracks with AIS, satellite, and UAV data to produce a single authoritative track per target — eliminates duplicate tracks and gaps.</td>
+        </tr>
+        <tr>
+          <td>Integrated Bridge System (IBS)</td>
+          <td>The unified display and control system. Required by IMO MSC.252(83) for ships fitted with IBS. Presents the fused operational picture to the Officer of the Watch.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- ── SECTION 5: SOLAS / IMO COMPLIANCE ─────────────────── -->
+    <h2>5. SOLAS / IMO Compliance Mapping</h2>
+    <p>
+      The decision nodes in the Activity Diagram encode SOLAS Chapter V carriage requirements.
+      These are not design choices — they are legal mandates reflected in the model.
+    </p>
+    <table class="decision-table">
+      <thead>
+        <tr><th>Requirement</th><th>Tonnage Threshold</th><th>Standard / Regulation</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>9 GHz Radar + Electronic Plotting Aid</td>
+          <td>&gt; 300 GT</td>
+          <td>SOLAS Chapter V</td>
+        </tr>
+        <tr>
+          <td>Additional 3 GHz Radar + ARPA</td>
+          <td>&gt; 3000 GT</td>
+          <td>SOLAS Chapter V</td>
+        </tr>
+        <tr>
+          <td>Range accuracy: ±30 m or 1%</td>
+          <td>All radar-fitted vessels</td>
+          <td>IMO Resolution MSC.192(79) — 6 Dec 2004</td>
+        </tr>
+        <tr>
+          <td>Bearing accuracy: ±1°</td>
+          <td>All radar-fitted vessels</td>
+          <td>IMO Resolution MSC.192(79)</td>
+        </tr>
+        <tr>
+          <td>Two-target range discrimination: 40 m at same bearing</td>
+          <td>All radar-fitted vessels</td>
+          <td>IMO Resolution MSC.192(79)</td>
+        </tr>
+        <tr>
+          <td>Two-target bearing discrimination: 2.5° at same range</td>
+          <td>All radar-fitted vessels</td>
+          <td>IMO Resolution MSC.192(79)</td>
+        </tr>
+        <tr>
+          <td>Cold start: operational within 4 minutes</td>
+          <td>All radar-fitted vessels</td>
+          <td>IMO Resolution MSC.192(79)</td>
+        </tr>
+        <tr>
+          <td>Standby resume: operational within 5 seconds</td>
+          <td>All radar-fitted vessels</td>
+          <td>IMO Resolution MSC.192(79)</td>
+        </tr>
+        <tr>
+          <td>Range scales: 0.25, 0.5, 0.75, 1.5, 3, 6, 12, 24 NM</td>
+          <td>All radar-fitted vessels</td>
+          <td>IMO Resolution MSC.192(79)</td>
+        </tr>
+        <tr>
+          <td>Minimum 2 Variable Range Markers (VRMs)</td>
+          <td>All radar-fitted vessels</td>
+          <td>IMO Resolution MSC.192(79)</td>
+        </tr>
+        <tr>
+          <td>Minimum 4 Parallel Index Lines</td>
+          <td>All radar-fitted vessels</td>
+          <td>IMO Resolution MSC.192(79)</td>
+        </tr>
+        <tr>
+          <td>Sensor failure alarm (gyro, log, video, sync, heading)</td>
+          <td>All radar-fitted vessels</td>
+          <td>IMO Resolution MSC.192(79)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- ── SECTION 6: SWIM LANE DECISIONS ────────────────────── -->
+    <h2>6. Swim Lane Structure — Design Decisions</h2>
+    <p>
+      The five swim lanes were derived directly from the four major hardware components described in the source
+      (§4: Transmitter, Scanner, Receiver, Display) with a fifth lane added for the Hybrid Navy parallel flow.
+    </p>
+    <ul>
+      <li><strong>Lane = responsibility boundary:</strong> Each lane maps to a distinct physical subsystem with clear input/output interfaces. This matches the SysML principle that swim lanes represent partitions of responsibility.</li>
+      <li><strong>Lane ordering = signal flow:</strong> Lanes are ordered top-to-bottom in the sequence the radar signal traverses them — from transmission through to display. This makes the pipeline immediately readable.</li>
+      <li><strong>Hybrid Navy as a separate lane:</strong> The Hybrid Navy flow is given its own lane because it represents a distinct system that interfaces with (but is not part of) the core radar hardware. Placing it in the Display lane would incorrectly imply it is a component of the display subsystem.</li>
+    </ul>
+
+    <!-- ── SECTION 7: CHANGE LOG ──────────────────────────────── -->
+    <h2>7. Change Log</h2>
+    <table class="decision-table">
+      <thead>
+        <tr><th>Date</th><th>Change</th><th>Reason</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>2026-04-21</td>
+          <td>Initial SysML model created as PlantUML (.puml) files</td>
+          <td>First pass based on source article content</td>
+        </tr>
+        <tr>
+          <td>2026-04-21</td>
+          <td>Format changed from PlantUML to local web app (HTML/CSS/JS)</td>
+          <td>Defence environment constraint: no web-based or CDN-dependent tools. Local web app selected for offline usability and modifiability.</td>
+        </tr>
+        <tr>
+          <td>2026-04-21</td>
+          <td>Web app architecture: separate files (not single HTML) selected</td>
+          <td>Easier to modify — diagram data separated from rendering logic in distinct JS files</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+<footer>
+  FADS – Radar Ingestion SysML &nbsp;|&nbsp; Offline Local Web App
+</footer>
+
+<script src="js/app.js"></script>
+</body>
+</html>
