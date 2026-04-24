@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Requirements Diagram – FADS Radar SysML</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header>
+  <div class="logo">FADS <span>/ Radar Ingestion SysML</span></div>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="usecase.html">Use Case Diagram</a>
+    <a href="requirements.html" class="active">Requirements Diagram</a>
+    <a href="activity.html">Activity Diagram</a>
+    <a href="bdd.html">Block Diagram</a>
+    <a href="rationale.html">Decisions &amp; Rationale</a>
+  </nav>
+</header>
+
+<div class="page-content">
+  <h1 class="page-title">SysML Requirements Diagram — Marine Radar System</h1>
+  <p class="page-subtitle">
+    20 requirements across 4 groups &nbsp;·&nbsp;
+    Each requirement linked to source section, BDD blocks, Activity nodes, and Use Cases &nbsp;·&nbsp;
+    Containment brackets show group ↔ child relationships
+  </p>
+
+  <div id="diagram-toolbar" class="zoom-controls">
+    <button data-zoom="in">+ Zoom In</button>
+    <button data-zoom="out">- Zoom Out</button>
+    <button data-zoom="reset">Reset View</button>
+    <span class="zoom-hint">Scroll to zoom &middot; Drag to pan &middot; Click any requirement for details</span>
+  </div>
+
+  <div class="diagram-wrap">
+    <div id="requirements-svg"></div>
+  </div>
+
+  <div class="legend" style="margin-top:18px;">
+    <div class="legend-item">
+      <div class="legend-swatch" style="background:#DCEEFB;border-color:#1A6EA3;"></div>
+      REQ-SYS — System Performance
+    </div>
+    <div class="legend-item">
+      <div class="legend-swatch" style="background:#FFEBEE;border-color:#B71C1C;"></div>
+      REQ-SOL — SOLAS Compliance
+    </div>
+    <div class="legend-item">
+      <div class="legend-swatch" style="background:#E0F7FA;border-color:#00695C;"></div>
+      REQ-HYB — Hybrid Navy Integration
+    </div>
+    <div class="legend-item">
+      <div class="legend-swatch" style="background:#FBE9E7;border-color:#E65100;"></div>
+      REQ-HW — Hardware &amp; Physical
+    </div>
+    <div class="legend-item">
+      <svg width="34" height="12" style="overflow:visible;">
+        <line x1="6" y1="0" x2="6" y2="12" stroke="#888" stroke-width="2"/>
+        <line x1="6" y1="6" x2="18" y2="6" stroke="#888" stroke-width="2"/>
+        <circle cx="6" cy="2" r="3" fill="#888"/>
+      </svg>
+      Containment (group → requirements)
+    </div>
+  </div>
+
+  <p style="margin-top:14px; font-size:0.78rem; color:var(--text-muted);">
+    <strong>«requirementGroup»</strong> blocks at the top of each column contain four
+    <strong>«requirement»</strong> child blocks. The containment bracket (left-side vertical line with stubs)
+    shows the SysML containment relationship. Click any block to see its id, text, source traceability,
+    and cross-links to the Activity Diagram, Block Diagram, and Use Case Diagram.
+  </p>
+</div>
+
+<footer>
+  FADS – Radar Ingestion SysML &nbsp;|&nbsp; Offline Local Web App
+</footer>
+
+<script src="js/app.js"></script>
+<script src="js/interact.js"></script>
+<script src="js/requirements.js"></script>
+</body>
+</html>

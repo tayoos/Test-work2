@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Activity Diagram – FADS Radar SysML</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header>
+  <div class="logo">FADS <span>/ Radar Ingestion SysML</span></div>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="usecase.html">Use Case Diagram</a>
+    <a href="requirements.html">Requirements Diagram</a>
+    <a href="activity.html" class="active">Activity Diagram</a>
+    <a href="bdd.html">Block Diagram</a>
+    <a href="rationale.html">Decisions &amp; Rationale</a>
+  </nav>
+</header>
+
+<div class="page-content">
+  <h1 class="page-title">SysML Activity Diagram — Marine Radar Ingestion</h1>
+  <p class="page-subtitle">
+    Signal flow from power-on through to navigation output &nbsp;·&nbsp;
+    Parallel Hybrid Navy flow shown in teal lane &nbsp;·&nbsp;
+    Source: Merchant Navy Decoded – The Complete Guide About Marine Radar
+  </p>
+
+  <div id="lane-filter" class="lane-filter-bar">
+    <span class="filter-label">Show lanes:</span>
+  </div>
+
+  <div id="diagram-toolbar" class="zoom-controls">
+    <button data-zoom="in">+ Zoom In</button>
+    <button data-zoom="out">- Zoom Out</button>
+    <button data-zoom="reset">Reset View</button>
+    <span class="zoom-hint">Scroll to zoom &middot; Drag to pan &middot; Click any node for details</span>
+  </div>
+
+  <div class="diagram-wrap">
+    <div id="activity-svg"></div>
+  </div>
+
+  <div class="legend" style="margin-top:18px;">
+    <div class="legend-item">
+      <div class="legend-swatch" style="background:#DCEEFB;border-color:#1A6EA3;"></div>
+      Transmitter Layer
+    </div>
+    <div class="legend-item">
+      <div class="legend-swatch" style="background:#E8F5E9;border-color:#2E7D32;"></div>
+      Scanner / Aerial Layer
+    </div>
+    <div class="legend-item">
+      <div class="legend-swatch" style="background:#FBE9E7;border-color:#B71C1C;"></div>
+      Receiver / Signal Processing
+    </div>
+    <div class="legend-item">
+      <div class="legend-swatch" style="background:#EDE7F6;border-color:#6A1B9A;"></div>
+      Display &amp; Plotting Layer
+    </div>
+    <div class="legend-item">
+      <div class="legend-swatch" style="background:#E0F7FA;border-color:#00695C;"></div>
+      Hybrid Navy Integration Layer
+    </div>
+    <div class="legend-item">
+      <div class="legend-swatch" style="background:#FFF9C4;border-color:#F9A825;"></div>
+      Decision Point
+    </div>
+    <div class="legend-item">
+      <div class="legend-swatch" style="background:#FFEBEE;border-color:#C62828;"></div>
+      Alarm State
+    </div>
+    <div class="legend-item">
+      <div class="legend-swatch" style="background:#F3E5F5;border-color:#7B1FA2;"></div>
+      Measurement Output
+    </div>
+    <div class="legend-item">
+      <div class="legend-swatch" style="background:#E8F5E9;border-color:#388E3C;"></div>
+      SOLAS Mandatory
+    </div>
+    <div class="legend-item">
+      <div class="legend-swatch" style="background:#FFFDE7;border-color:#F0A500;"></div>
+      Annotation Note
+    </div>
+  </div>
+
+  <p style="margin-top:14px; font-size:0.78rem; color:var(--text-muted);">
+    <strong>Dashed arrows</strong> indicate cross-lane signal handoff or parallel flow transitions.
+    <strong>Thick black bars</strong> are SysML fork / join nodes indicating concurrent execution.
+    <strong>Yellow diamonds</strong> are guard conditions (SOLAS tonnage requirement, sensor failure check).
+  </p>
+</div>
+
+<footer>
+  FADS – Radar Ingestion SysML &nbsp;|&nbsp; Offline Local Web App
+</footer>
+
+<script src="js/app.js"></script>
+<script src="js/interact.js"></script>
+<script src="js/activity.js"></script>
+</body>
+</html>

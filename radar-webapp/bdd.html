@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Block Diagram – FADS Radar SysML</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header>
+  <div class="logo">FADS <span>/ Radar Ingestion SysML</span></div>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="usecase.html">Use Case Diagram</a>
+    <a href="requirements.html">Requirements Diagram</a>
+    <a href="activity.html">Activity Diagram</a>
+    <a href="bdd.html" class="active">Block Diagram</a>
+    <a href="rationale.html">Decisions &amp; Rationale</a>
+  </nav>
+</header>
+
+<div class="page-content">
+  <h1 class="page-title">SysML Block Definition Diagram — Marine Radar System</h1>
+  <p class="page-subtitle">
+    System structure: blocks, parts, values, operations, and relationships &nbsp;·&nbsp;
+    Hybrid Navy system shown connected via parallel flow stereotype
+  </p>
+
+  <div id="diagram-toolbar" class="zoom-controls">
+    <button data-zoom="in">+ Zoom In</button>
+    <button data-zoom="out">- Zoom Out</button>
+    <button data-zoom="reset">Reset View</button>
+    <span class="zoom-hint">Scroll to zoom &middot; Drag to pan &middot; Click a block to highlight its connections</span>
+  </div>
+
+  <div class="diagram-wrap">
+    <div id="bdd-svg"></div>
+  </div>
+
+  <div class="legend" style="margin-top:18px;">
+    <div class="legend-item">
+      <svg width="34" height="12" style="overflow:visible;">
+        <line x1="0" y1="6" x2="30" y2="6" stroke="#1A6EA3" stroke-width="2"/>
+        <polygon points="24,2 34,6 24,10" fill="#1A6EA3"/>
+        <polygon points="4,2 0,6 4,10 8,6" fill="#1A6EA3"/>
+      </svg>
+      Composition (filled diamond → part of)
+    </div>
+    <div class="legend-item">
+      <svg width="34" height="12" style="overflow:visible;">
+        <line x1="0" y1="6" x2="30" y2="6" stroke="#6A1B9A" stroke-width="2"/>
+        <polygon points="22,2 34,6 22,10" fill="none" stroke="#6A1B9A" stroke-width="1.5"/>
+      </svg>
+      Generalization / Specialization
+    </div>
+    <div class="legend-item">
+      <svg width="34" height="12" style="overflow:visible;">
+        <line x1="0" y1="6" x2="28" y2="6" stroke="#2E86AB" stroke-width="2"/>
+        <polygon points="22,2 34,6 22,10" fill="#2E86AB"/>
+      </svg>
+      Signal Flow
+    </div>
+    <div class="legend-item">
+      <svg width="34" height="12" style="overflow:visible;">
+        <line x1="0" y1="6" x2="28" y2="6" stroke="#E65100" stroke-width="2" stroke-dasharray="5,3"/>
+        <path d="M22,2 L34,6 L22,10" fill="none" stroke="#E65100" stroke-width="1.5"/>
+      </svg>
+      Usage
+    </div>
+    <div class="legend-item">
+      <svg width="34" height="12" style="overflow:visible;">
+        <line x1="0" y1="6" x2="28" y2="6" stroke="#00695C" stroke-width="2" stroke-dasharray="8,4"/>
+        <polygon points="22,2 34,6 22,10" fill="#00695C"/>
+      </svg>
+      Parallel Flow (Hybrid Navy)
+    </div>
+  </div>
+
+  <p style="margin-top:14px; font-size:0.78rem; color:var(--text-muted);">
+    Block headers show the stereotype («block», «specialize»), name, and colour-coded by layer.
+    Compartments show Values, Parts, Operations, and Constraints where applicable.
+    The <strong>HybridNavySystem</strong> block connects to MarineRadarSystem via a «parallel flow» relationship,
+    representing concurrent operation rather than a component part.
+  </p>
+</div>
+
+<footer>
+  FADS – Radar Ingestion SysML &nbsp;|&nbsp; Offline Local Web App
+</footer>
+
+<script src="js/app.js"></script>
+<script src="js/interact.js"></script>
+<script src="js/bdd.js"></script>
+</body>
+</html>

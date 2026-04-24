@@ -1,0 +1,437 @@
+/* ============================================================
+   FADS – Radar Ingestion SysML Web App
+   Shared Stylesheet
+   ============================================================ */
+
+:root {
+  --navy:      #0D1B2A;
+  --navy-mid:  #1B2A3B;
+  --accent:    #2E86AB;
+  --accent2:   #00B4D8;
+  --light-bg:  #F4F7FA;
+  --border:    #D0DCE8;
+  --text:      #1A1A2E;
+  --text-muted:#5A6A7A;
+  --white:     #FFFFFF;
+
+  /* Lane colours */
+  --lane-tx:       #DCEEFB;
+  --lane-tx-hdr:   #1A6EA3;
+  --lane-scan:     #E8F5E9;
+  --lane-scan-hdr: #2E7D32;
+  --lane-rx:       #FBE9E7;
+  --lane-rx-hdr:   #B71C1C;
+  --lane-disp:     #EDE7F6;
+  --lane-disp-hdr: #6A1B9A;
+  --lane-hybrid:   #E0F7FA;
+  --lane-hybrid-hdr: #00695C;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: var(--light-bg);
+  color: var(--text);
+  font-size: 14px;
+}
+
+/* ── TOP NAV ─────────────────────────────────────────────── */
+header {
+  background: var(--navy);
+  color: var(--white);
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 3px solid var(--accent);
+}
+
+header .logo {
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent2);
+}
+
+header .logo span {
+  color: var(--white);
+  font-weight: 300;
+}
+
+nav {
+  display: flex;
+  gap: 4px;
+}
+
+nav a {
+  color: #A8C0D6;
+  text-decoration: none;
+  padding: 8px 14px;
+  border-radius: 4px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  transition: background 0.15s, color 0.15s;
+}
+
+nav a:hover,
+nav a.active {
+  background: var(--accent);
+  color: var(--white);
+}
+
+/* ── PAGE WRAPPER ────────────────────────────────────────── */
+.page-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 28px 24px 60px;
+}
+
+.page-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 4px;
+}
+
+.page-subtitle {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+}
+
+.page-subtitle a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+/* ── DIAGRAM CONTAINER ───────────────────────────────────── */
+.diagram-wrap {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 16px;
+  overflow-x: auto;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.diagram-wrap svg {
+  display: block;
+  margin: 0 auto;
+}
+
+/* ── LEGEND ──────────────────────────────────────────────── */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.legend-swatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  border: 1px solid rgba(0,0,0,0.15);
+  flex-shrink: 0;
+}
+
+/* ── INFO CARDS (index page) ─────────────────────────────── */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 20px;
+  text-decoration: none;
+  color: var(--text);
+  transition: box-shadow 0.15s, border-color 0.15s;
+  display: block;
+}
+
+.card:hover {
+  box-shadow: 0 4px 16px rgba(46,134,171,0.15);
+  border-color: var(--accent);
+}
+
+.card-icon {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+}
+
+.card-title {
+  font-weight: 700;
+  font-size: 0.95rem;
+  margin-bottom: 6px;
+  color: var(--navy);
+}
+
+.card-desc {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* ── SOURCE BADGE ────────────────────────────────────────── */
+.source-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--navy-mid);
+  color: #A8C0D6;
+  font-size: 0.72rem;
+  padding: 4px 10px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  letter-spacing: 0.03em;
+}
+
+/* ── RATIONALE PAGE ──────────────────────────────────────── */
+.rationale-body {
+  max-width: 860px;
+}
+
+.rationale-body h2 {
+  font-size: 1.1rem;
+  color: var(--navy);
+  margin: 28px 0 10px;
+  padding-bottom: 6px;
+  border-bottom: 2px solid var(--border);
+}
+
+.rationale-body h3 {
+  font-size: 0.95rem;
+  color: var(--accent);
+  margin: 18px 0 8px;
+}
+
+.rationale-body p {
+  line-height: 1.7;
+  margin-bottom: 10px;
+  color: var(--text);
+}
+
+.rationale-body ul, .rationale-body ol {
+  padding-left: 22px;
+  margin-bottom: 12px;
+}
+
+.rationale-body li {
+  line-height: 1.7;
+  margin-bottom: 4px;
+}
+
+.decision-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 12px 0 18px;
+  font-size: 0.82rem;
+}
+
+.decision-table th {
+  background: var(--navy);
+  color: var(--white);
+  padding: 8px 12px;
+  text-align: left;
+  font-weight: 600;
+}
+
+.decision-table td {
+  border: 1px solid var(--border);
+  padding: 7px 12px;
+  vertical-align: top;
+  line-height: 1.5;
+}
+
+.decision-table tr:nth-child(even) td {
+  background: var(--light-bg);
+}
+
+.tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.tag-source  { background: #E3F2FD; color: #1565C0; }
+.tag-decision { background: #FFF3E0; color: #E65100; }
+.tag-rationale { background: #E8F5E9; color: #2E7D32; }
+
+/* ── FOOTER ──────────────────────────────────────────────── */
+footer {
+  background: var(--navy);
+  color: #5A7A95;
+  font-size: 0.75rem;
+  text-align: center;
+  padding: 14px;
+  margin-top: 40px;
+}
+
+/* ── INTERACTIVE: Tooltip ────────────────────────────────── */
+.sysml-tooltip {
+  position: fixed;
+  display: none;
+  background: var(--navy);
+  color: #E0EEF8;
+  font-size: 0.78rem;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  padding: 5px 10px;
+  border-radius: 4px;
+  pointer-events: none;
+  z-index: 9000;
+  max-width: 260px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  white-space: nowrap;
+}
+
+/* ── INTERACTIVE: Detail Panel ───────────────────────────── */
+.detail-panel {
+  position: fixed;
+  display: none;
+  width: 316px;
+  max-height: 68vh;
+  background: var(--white);
+  border: 1px solid rgba(0,0,0,0.13);
+  border-top: 3px solid var(--accent);
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.22);
+  overflow-y: auto;
+  z-index: 600;
+  padding: 12px 14px 14px;
+  pointer-events: auto;
+}
+.detail-panel.open { display: block; }
+
+.detail-close {
+  position: absolute;
+  top: 8px; right: 10px;
+  background: none; border: none;
+  font-size: 0.85rem; color: var(--text-muted);
+  cursor: pointer; padding: 2px 6px; border-radius: 4px;
+  line-height: 1;
+}
+.detail-close:hover { background: var(--light-bg); color: var(--text); }
+
+.dp-stereo { font-size: 0.72rem; color: var(--text-muted); font-style: italic; margin-bottom: 2px; }
+.dp-title  { font-size: 1rem; font-weight: 700; color: var(--navy); margin-bottom: 6px; padding-right: 24px; }
+.dp-meta   { font-size: 0.75rem; color: var(--accent); font-weight: 600; margin-bottom: 10px; }
+.dp-desc   { font-size: 0.82rem; line-height: 1.6; color: var(--text); margin-bottom: 12px; }
+
+.dp-section {
+  font-size: 0.72rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.06em;
+  color: var(--text-muted); margin: 12px 0 4px;
+}
+.dp-list { padding-left: 16px; margin: 0 0 8px; }
+.dp-list li { font-size: 0.78rem; font-family: Consolas, monospace; color: var(--text); line-height: 1.7; }
+
+.dp-note {
+  background: #FFFDE7; border-left: 3px solid #F0A500;
+  font-size: 0.78rem; color: #4A3800; padding: 6px 10px;
+  border-radius: 0 4px 4px 0; margin-top: 10px; font-style: italic;
+}
+
+/* ── INTERACTIVE: Zoom Controls ──────────────────────────── */
+.zoom-controls {
+  display: flex; align-items: center; gap: 4px; margin-bottom: 8px;
+}
+.zoom-controls button {
+  background: var(--navy-mid); color: #A8C0D6;
+  border: 1px solid rgba(255,255,255,0.1); border-radius: 4px;
+  padding: 4px 10px; font-size: 0.78rem; cursor: pointer;
+  font-family: 'Segoe UI', Arial, sans-serif; transition: background 0.15s, color 0.15s;
+}
+.zoom-controls button:hover { background: var(--accent); color: var(--white); }
+.zoom-hint { font-size: 0.72rem; color: var(--text-muted); margin-left: 6px; }
+
+/* ── INTERACTIVE: Lane Filter ────────────────────────────── */
+.lane-filter-bar {
+  display: flex; flex-wrap: wrap; gap: 6px;
+  margin-bottom: 10px; align-items: center;
+}
+.filter-label {
+  font-size: 0.72rem; color: var(--text-muted);
+  text-transform: uppercase; letter-spacing: 0.05em;
+  font-weight: 600; margin-right: 4px;
+}
+.lane-filter-btn {
+  font-size: 0.72rem; font-family: 'Segoe UI', Arial, sans-serif;
+  padding: 3px 10px; border-radius: 12px; border: 2px solid #ccc;
+  background: var(--white); color: var(--text-muted);
+  cursor: pointer; transition: all 0.15s; font-weight: 600;
+  letter-spacing: 0.03em; text-transform: uppercase;
+}
+
+/* ── INTERACTIVE: Cross-diagram reference links ──────────── */
+.dp-crossref {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--accent);
+  text-decoration: none;
+  padding: 5px 0;
+  border-bottom: 1px solid var(--border);
+  transition: color 0.15s;
+}
+.dp-crossref:last-child { border-bottom: none; }
+.dp-crossref:hover { color: var(--navy); text-decoration: underline; }
+
+/* ── INTERACTIVE: URL-highlight flash ────────────────────── */
+@keyframes nodeFlash {
+  0%   { filter: drop-shadow(0 0 10px rgba(46,134,171,0.9)); opacity: 1; }
+  40%  { filter: drop-shadow(0 0 3px rgba(46,134,171,0.3));  opacity: 0.7; }
+  100% { filter: drop-shadow(0 0 10px rgba(46,134,171,0.9)); opacity: 1; }
+}
+.highlight-flash { animation: nodeFlash 0.55s ease 3; }
+
+/* ── INTERACTIVE: Node hover (Activity) ──────────────────── */
+.node-group { cursor: pointer; }
+.node-group:hover rect,
+.node-group:hover polygon,
+.node-group:hover circle { opacity: 0.85; }
+
+/* ── INTERACTIVE: Block states (BDD) ─────────────────────── */
+.block-group { cursor: pointer; transition: opacity 0.2s; }
+.block-group.dimmed  { opacity: 0.1; pointer-events: none; }
+.block-group.selected { filter: drop-shadow(0 0 7px rgba(46,134,171,0.85)); }
+
+.conn-group { transition: opacity 0.2s; }
+.conn-group.dimmed { opacity: 0.05; }
+.conn-group.highlighted line,
+.conn-group.highlighted polyline { stroke-width: 3 !important; }
+
+/* ── INTERACTIVE: Requirements Diagram nodes ─────────────────── */
+.req-group, .req-node { cursor: pointer; transition: filter 0.15s; }
+.req-group:hover, .req-node:hover {
+  filter: drop-shadow(0 0 6px rgba(46,134,171,0.55));
+}
+
+/* ── INTERACTIVE: Link count badges ──────────────────────────── */
+.link-badge rect { transition: opacity 0.15s; }
+
+/* ── INTERACTIVE: Use case actor + node cursor ───────────────── */
+.uc-node, .actor-group { cursor: pointer; }
+.uc-node:hover ellipse { filter: brightness(0.92); }
